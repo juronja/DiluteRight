@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build Docker image
-      run: docker build . -t juronja/tincture-calculator:latest
+      run: docker build . -t juronja/dilute-right:latest
     - name: Push docker image to Docker hub
-      run: docker login -u juronja -p ${{ secrets.DOCKER_HUB_TOKEN }} && docker push juronja/tincture-calculator:latest
+      run: docker login -u juronja -p ${{ secrets.DOCKER_HUB_TOKEN }} && docker push juronja/dilute-right:latest
 
