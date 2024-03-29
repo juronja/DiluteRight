@@ -1,0 +1,8 @@
+name: dilute-right # Will be used for network auto naming and image names
+services:
+  app:
+    image: 'juronja/dilute-right:latest'
+    container_name: dilute-right
+    restart: unless-stopped
+    ports:
+      - '7474:80' # These ports are in format <host-port>:<container-port>

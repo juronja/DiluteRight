@@ -1,0 +1,30 @@
+header {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+footer {
+    margin-top: 30px;
+}
+
+hr {
+    margin: 40px auto;
+}
+
+#results-output {
+    display: none;
+}
+
+#results {
+    margin: 40px auto;
+}
+
+#result-validation {
+    display: none;
+}
+
+#random-cat img {
+    margin-top: 30px;
+    width: 60px;
+    height: 60px;
+}
