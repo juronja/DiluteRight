@@ -17,6 +17,7 @@ pipeline {
         stage('Deploy Docker container') {
             steps {
                 echo "Deploying container ..."
+                echo "$USER -- $HOME"
                 sh "docker compose version"
                 // Next line in single quotes for security
                 //sh 'echo $NEXUS_CREDS_PSW | docker login -u $NEXUS_CREDS_USR --password-stdin 64.226.97.173:8082'
