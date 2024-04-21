@@ -21,9 +21,9 @@ pipeline {
         stage('Deploy Docker container') {
             steps {
                 echo "Deploying container ..."
-                sh "docker stop $CONTAINER_NAME"
-                sh "docker rm $CONTAINER_NAME"
-                sh "docker rmi $IMAGE_TAG"
+                //sh "docker stop $CONTAINER_NAME"
+                //sh "docker rm $CONTAINER_NAME"
+                //sh "docker rmi $IMAGE_TAG"
                 sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $DOCKER_IMAGE"
             }
         }
