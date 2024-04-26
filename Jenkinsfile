@@ -40,7 +40,7 @@ pipeline {
                     // Always run the container regardless of previous existence
                     echo "Starting container $CONTAINER_NAME ..."
                     sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $IMAGE_TAG:latest"
-                    sh "docker image prune"
+                    sh "docker image prune --force"
                 }
             }
         }
