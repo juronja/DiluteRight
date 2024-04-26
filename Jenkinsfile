@@ -1,8 +1,10 @@
 pipeline {
     agent any
     environment {
-        IMAGE_TAG = "juronja/dilute-right:latest"
-        CONTAINER_NAME = "dilute-right"
+        BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_YEAR}.${BUILD_MONTH}.${BUILDS_THIS_MONTH}')
+        IMAGE_TAG = "juronja/$JOB_NAME"
+        VERSION = "$BUILD_VERSION"
+        CONTAINER_NAME = "$JOB_NAME"
     }
         
     stages {
@@ -12,10 +14,11 @@ pipeline {
             }
             steps {
                 echo "Building Dockerhub image ..."
-                sh "docker build -t $IMAGE_TAG ."
+                sh "docker build -t $IMAGE_TAG:latest -t $IMAGE_TAG:$BUILD_VERSION ."
                 // Next line in single quotes for security
                 //sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
-                sh "docker push $IMAGE_TAG"
+                sh "docker push $IMAGE_TAG:latest"
+                sh "docker push $IMAGE_TAG:$BUILD_VERSION"
             }
         }
         stage('Deploy Docker container') {
@@ -30,12 +33,14 @@ pipeline {
                         echo "Stopping and removing existing container $CONTAINER_NAME ..."
                         sh "docker stop $CONTAINER_NAME"
                         sh "docker rm $CONTAINER_NAME"
-                        sh "docker rmi $IMAGE_TAG" // Remove leftover image if needed
+                        sh "docker rmi $IMAGE_TAG:latest" // Remove leftover image if needed
+                        sh "docker rmi $IMAGE_TAG:$BUILD_VERSION" // Remove leftover image if needed
                     }
 
                     // Always run the container regardless of previous existence
                     echo "Starting container $CONTAINER_NAME ..."
-                    sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $IMAGE_TAG"
+                    sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $IMAGE_TAG:latest"
+                    sh "docker image prune"
                 }
             }
         }
