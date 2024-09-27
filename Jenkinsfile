@@ -16,7 +16,7 @@ pipeline {
                 echo "Building Dockerhub image ..."
                 sh "docker build -t $IMAGE_TAG:latest -t $IMAGE_TAG:$BUILD_VERSION ."
                 // Next line in single quotes for security
-                //sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
+                sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
                 sh "docker push $IMAGE_TAG:latest"
                 sh "docker push $IMAGE_TAG:$BUILD_VERSION"
             }
