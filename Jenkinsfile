@@ -3,7 +3,6 @@ pipeline {
     environment {
         BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_YEAR}.${BUILD_MONTH}.${BUILDS_THIS_MONTH}')
         IMAGE_TAG = "juronja/$JOB_NAME"
-        VERSION = "$BUILD_VERSION"
         CONTAINER_NAME = "$JOB_NAME"
     }
         
