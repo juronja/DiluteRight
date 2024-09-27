@@ -11,6 +11,10 @@ hr {
     margin: 40px auto;
 }
 
+h2 {
+    font-size: medium;
+}
+
 #results-output {
     display: none;
 }
