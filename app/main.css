@@ -11,9 +11,9 @@ hr {
     margin: 40px auto;
 }
 
-h2 {
-    font-size: smaller;
-}
+    h2 {
+    font-size: x-small;
+    }
 
 #results-output {
     display: none;
@@ -28,7 +28,7 @@ h2 {
 }
 
 #random-cat img {
-    margin-top: 20px;
+    margin: 20px 0px 10px 0px;
     width: 60px;
     height: 60px;
 }
