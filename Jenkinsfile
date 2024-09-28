@@ -2,22 +2,37 @@ pipeline {
     agent any
     environment {
         BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_YEAR}.${BUILD_MONTH}.${BUILDS_THIS_MONTH}')
-        IMAGE_TAG = "juronja/$JOB_NAME"
+        DOCKERH_REPO = "juronja"
+        NEXUS_REPO = "192.168.84.16:8082"
+        IMAGE_TAG = "$JOB_NAME"
         CONTAINER_NAME = "$JOB_NAME"
     }
         
     stages {
-        stage('Build Dockerhub image') {
+        stage('Build Docker image for Docker Hub') {
             environment {
                 DOCKERHUB_CREDS = credentials('dockerhub-creds')
             }
             steps {
-                echo "Building Dockerhub image ..."
-                sh "docker build -t $IMAGE_TAG:latest -t $IMAGE_TAG:$BUILD_VERSION ."
+                echo "Building Docker image for Docker Hub ..."
+                sh "docker build -t $DOCKERH_REPO/$IMAGE_TAG:latest -t $DOCKERH_REPO/$IMAGE_TAG:$BUILD_VERSION ."
                 // Next line in single quotes for security
                 sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
-                sh "docker push $IMAGE_TAG:latest"
-                sh "docker push $IMAGE_TAG:$BUILD_VERSION"
+                sh "docker push $DOCKERH_REPO/$IMAGE_TAG:latest"
+                sh "docker push $DOCKERH_REPO/$IMAGE_TAG:$BUILD_VERSION"
+            }
+        }
+        stage('Build Docker image for Nexus') {
+            environment {
+                NEXUS_CREDS = credentials('nexus-creds')
+            }
+            steps {
+                echo "Building Docker image for Nexus ..."
+                sh "docker build -t $NEXUS_REPO/$IMAGE_TAG:latest -t $NEXUS_REPO/$IMAGE_TAG:$BUILD_VERSION ."
+                // Next line in single quotes for security
+                sh 'echo $NEXUS_CREDS_PSW | docker login -u $NEXUS_CREDS_USR --password-stdin 192.168.84.16:8082'
+                sh "docker push $NEXUS_REPO/$IMAGE_TAG:latest"
+                sh "docker push $NEXUS_REPO/$IMAGE_TAG:$BUILD_VERSION"
             }
         }
         stage('Deploy Docker container') {
@@ -32,13 +47,13 @@ pipeline {
                         echo "Stopping and removing existing container $CONTAINER_NAME ..."
                         sh "docker stop $CONTAINER_NAME"
                         sh "docker rm $CONTAINER_NAME"
-                        sh "docker rmi $IMAGE_TAG:latest" // Remove leftover image if needed
-                        sh "docker rmi $IMAGE_TAG:$BUILD_VERSION" // Remove leftover image if needed
+                        sh "docker rmi $DOCKERH_REPO/$IMAGE_TAG:latest" // Remove leftover image if needed
+                        sh "docker rmi $DOCKERH_REPO/$IMAGE_TAG:$BUILD_VERSION" // Remove leftover image if needed
                     }
 
                     // Always run the container regardless of previous existence
                     echo "Starting container $CONTAINER_NAME ..."
-                    sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $IMAGE_TAG:latest"
+                    sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $DOCKERH_REPO/$IMAGE_TAG:latest"
                     sh "docker image prune --force"
                 }
             }
