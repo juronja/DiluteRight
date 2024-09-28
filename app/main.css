@@ -11,10 +11,6 @@ hr {
     margin: 40px auto;
 }
 
-    h2 {
-    font-size: x-small;
-    }
-
 #results-output {
     display: none;
 }
