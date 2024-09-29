@@ -13,6 +13,11 @@ pipeline {
             environment {
                 DOCKERHUB_CREDS = credentials('dockerhub-creds')
             }
+            when {
+                expression {
+                    BRANCH_NAME == "main"
+                }
+            }
             steps {
                 echo "Building Docker image for Docker Hub ..."
                 sh "docker build -t $DOCKERH_REPO/$IMAGE_TAG:latest -t $DOCKERH_REPO/$IMAGE_TAG:$BUILD_VERSION ."
