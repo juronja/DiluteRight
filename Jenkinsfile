@@ -31,11 +31,6 @@ pipeline {
             environment {
                 NEXUS_CREDS = credentials('nexus-creds')
             }
-            when {
-                expression {
-                    BRANCH_NAME == "main"
-                }
-            }
             steps {
                 echo "Building Docker image for Nexus ..."
                 sh "docker build -t $NEXUS_REPO/$IMAGE_TAG:latest -t $NEXUS_REPO/$IMAGE_TAG:$BUILD_VERSION ."
