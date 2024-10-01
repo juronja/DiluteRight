@@ -35,7 +35,7 @@ pipeline {
                 sh "docker push $NEXUS_REPO/$IMAGE_TAG:$BUILD_VERSION"
             }
         }
-        stage('Deploy Docker container') {
+        stage('Deploy Docker container on HOST') {
             steps {
                 script {
                     // Check if container exists
@@ -58,10 +58,14 @@ pipeline {
                 }
             }
         }
-//        stage('Deploy Docker container') {
-//            steps {
-//                script {
-//                    // Check if container exists
+        stage('Deploy Docker container on EC2') {
+            steps {
+                script {
+                    sshagent(['aws-ssh']) {
+                        // Check if container exists
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 docker run -d -p 7474:80 --restart unless-stopped --name dilute-right juronja/dilute-right:latest"
+                    }
+
 //                    def containerId = sh(script: "docker ps --quiet --filter name=$CONTAINER_NAME", returnStdout: true).trim()
 //
 //                    if (containerId.isEmpty()) {
@@ -72,8 +76,8 @@ pipeline {
 //                        sh "docker-compose down" // Stop and remove existing containers/networks (if defined in docker-compose.yml)
 //                        sh "docker-compose up -d" // Start/restart services with latest image
 //                    }
-//                }
-//            }
-//        }
+                }
+            }
+        }
     }
 }
