@@ -6,6 +6,7 @@ pipeline {
         NEXUS_REPO = "192.168.84.16:8082"
         IMAGE_TAG = "$JOB_NAME"
         CONTAINER_NAME = "$JOB_NAME"
+        DOCKER_RUN = "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $DOCKERH_REPO/$IMAGE_TAG:latest"
     }
         
     stages {
@@ -53,7 +54,7 @@ pipeline {
 
                     // Always run the container regardless of previous existence
                     echo "Starting container $CONTAINER_NAME ..."
-                    sh "docker run -d -p 7474:80 --restart unless-stopped --name $CONTAINER_NAME $DOCKERH_REPO/$IMAGE_TAG:latest"
+                    sh "$DOCKER_RUN"
                     sh "docker image prune --force"
                 }
             }
@@ -63,7 +64,7 @@ pipeline {
                 script {
                     sshagent(['aws-ssh']) {
                         // Check if container exists
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 docker run -d -p 7474:80 --restart unless-stopped --name dilute-right juronja/dilute-right:latest"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 $DOCKER_RUN"
                     }
 
 //                    def containerId = sh(script: "docker ps --quiet --filter name=$CONTAINER_NAME", returnStdout: true).trim()
