@@ -3,7 +3,7 @@ def buildEC2() {
     echo "something"
     echo "another thing"
     //def containerId = sh(script: "docker ps --quiet --filter name=$CONTAINER_NAME", returnStdout: true).trim()
-    
+
     }
     
 
