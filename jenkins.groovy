@@ -1,6 +1,7 @@
 def buildEC2() {
     // Check if container exists
-    echo "piza"
+    echo "piza" +
+    echo "lala"
     }
     //sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 $DOCKER_RUN"
 
