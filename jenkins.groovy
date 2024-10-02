@@ -1,6 +1,8 @@
 def buildEC2() {
     // Check if container exists
-    def containerId = sh(script: "docker ps --quiet --filter name=$CONTAINER_NAME", returnStdout: true).trim()
+    echo "something"
+    echo "another thing"
+    //def containerId = sh(script: "docker ps --quiet --filter name=$CONTAINER_NAME", returnStdout: true).trim()
     
     }
     
