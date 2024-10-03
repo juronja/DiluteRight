@@ -72,7 +72,7 @@ pipeline {
             steps {
                 script {
                     sshagent(['aws-ssh']) {
-                    xgs.buildEC2()
+                        xgs.buildEC2()
                     }
                 }
             }
