@@ -71,7 +71,9 @@ pipeline {
         stage('Deploy Docker container on EC2') {
             steps {
                 script {
-                    xgs.buildEC2()   
+                    sshagent(['aws-ssh']) {
+                    xgs.buildEC2()
+                    }
                 }
             }
         }
