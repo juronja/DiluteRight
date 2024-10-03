@@ -1,6 +1,6 @@
 def buildEC2() {
     sshagent(['aws-ssh']) {
-        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 'echo "something"'"
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 echo \"something\""
     }
     
 //    Check if container exists
