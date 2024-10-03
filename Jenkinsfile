@@ -68,21 +68,21 @@ pipeline {
                 }
             }
         }
-        stage('Deploy test') {
+        stage('Deploy Docker container on EC2') {
             steps {
                 script {
                     xgs.buildEC2()   
                 }
             }
         }
-        stage('Deploy Docker container on EC2') {
-            steps {
-                script {
-                    sshagent(['aws-ssh']) {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 xgs.buildEC2()"
-                    }
-                }
-            }
-        }
+//        stage('Deploy Docker container on EC2') {
+//            steps {
+//                script {
+//                    sshagent(['aws-ssh']) {
+//                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 xgs.buildEC2()"
+//                    }
+//                }
+//            }
+//        }
     }
 }

@@ -1,7 +1,9 @@
 def buildEC2() {
-    // Check if container exists
-    echo "something"
-
+    sshagent(['aws-ssh']) {
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 'echo "something"'"
+    }
+    
+//    Check if container exists
 //    def containerId = sh(script: "docker ps --quiet --filter name=$CONTAINER_NAME", returnStdout: true).trim()
 //
 //    if (containerId.isEmpty()) {
