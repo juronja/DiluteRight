@@ -68,6 +68,13 @@ pipeline {
                 }
             }
         }
+        stage('Deploy test') {
+            steps {
+                script {
+                    xgs.buildEC2()   
+                }
+            }
+        }
         stage('Deploy Docker container on EC2') {
             steps {
                 script {
