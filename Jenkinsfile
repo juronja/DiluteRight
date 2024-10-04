@@ -72,19 +72,13 @@ pipeline {
             steps {
                 script {
                     sshagent(['aws-ssh']) {
-                        xgs.buildEC2()
+                        echo "Deploying Docker container on EC2  ..."
+                        def bashScript = "bash ./ec2-commands.sh"
+                        sh "scp ec2-commands.sh ec2-user@35.157.110.150:/home/ec2-user"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 $bashScript"
                     }
                 }
             }
         }
-//        stage('Deploy Docker container on EC2') {
-//            steps {
-//                script {
-//                    sshagent(['aws-ssh']) {
-//                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.157.110.150 xgs.buildEC2()"
-//                    }
-//                }
-//            }
-//        }
     }
 }
