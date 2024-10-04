@@ -1,10 +1,9 @@
 #!/bin/bash
 
 # Check if container exists
-echo "something"
-
+wget https://cloud-images.ubuntu.com/$UBUNTU_RLS/current/$UBUNTU_RLS-server-cloudimg-amd64.img
+echo "something2"
 
 # Always run the container regardless of previous existence
-echo "Starting container $CONTAINER_NAME ..."
-sh "$DOCKER_RUN"
-sh "docker image prune --force"
+docker-compose down
+docker image prune --force
