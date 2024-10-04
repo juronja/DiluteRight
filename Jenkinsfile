@@ -1,4 +1,4 @@
-def xgs
+//def xgs
 
 pipeline {
     agent any
@@ -12,13 +12,13 @@ pipeline {
     }
         
     stages {
-        stage('Innit ext script') {
-            steps {
-                script {
-                    xgs = load 'jenkins.groovy'
-                }
-            }
-        }
+//        stage('Innit ext script') {
+//            steps {
+//                script {
+//                    xgs = load 'jenkins.groovy'
+//                }
+//            }
+//        }
         stage('Build Docker image for Docker Hub') {
             environment {
                 DOCKERHUB_CREDS = credentials('dockerhub-creds')
