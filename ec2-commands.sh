@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Downloading the compose file
-wget https://raw.githubusercontent.com/juronja/DiluteRight/refs/heads/main/compose.yaml
+wget -O compose.yaml https://raw.githubusercontent.com/juronja/DiluteRight/refs/heads/main/compose.yaml
 
 # Stoping and starting the container
 docker-compose down
