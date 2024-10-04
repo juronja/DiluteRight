@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# Check if container exists
+# Downloading the compose file
 wget https://raw.githubusercontent.com/juronja/DiluteRight/refs/heads/main/compose.yaml
-echo "something2"
 
-# Always run the container regardless of previous existence
+# Stoping and starting the container
 docker-compose down
 docker image prune --force
-docker-compose -d up
+docker-compose up -d
