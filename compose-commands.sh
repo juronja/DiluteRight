@@ -8,4 +8,4 @@ docker image prune --all --force
 wget -O compose.yaml https://raw.githubusercontent.com/juronja/DiluteRight/refs/heads/main/compose.yaml
 
 # Starting the container
-docker compose up -d --pull always
+docker compose up -d --remove-orphans
