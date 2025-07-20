@@ -24,13 +24,22 @@ pipeline {
         }
         stage('Deploy on HOSTING-PROD') {
             environment {
-                HOSTING_CREDS = credentials('creds-hosting-prod')
+                IP_HOSTING_PROD = credentials('ip-hosting-prod')
             }
             steps {
                 script {
-                    sshagent(['ssh-hosting-prod']) {
-                        echo "Deploying Docker container on HOSTING-PROD ..."
-                        sh "ssh -o StrictHostKeyChecking=no $HOSTING_CREDS_USR@$HOSTING_CREDS_PSW 'bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/juronja/DiluteRight/refs/heads/main/compose-commands.sh)\"'"
+                    echo "Deploying Docker container on HOSTING-PROD ..."
+
+                    def remote = [:]
+                    remote.name = "hosting-prod"
+                    remote.host = IP_HOSTING_PROD
+                    remote.allowAnyHosts = true
+
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-hosting-prod', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                        remote.user = user
+                        remote.identityFile = keyfile
+
+                        sshScript remote: remote, script: "compose-commands.sh"
                     }
                 }
             }
