@@ -1,5 +1,5 @@
 function handleImgLoad() {
-    const nrImages = 22
+    const nrImages = 20
     const randomNumber = Math.floor(Math.random() * nrImages) + 1;
     const newImgSrc = "assets/images/cat" + randomNumber + ".webp"
 
