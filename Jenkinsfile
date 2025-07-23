@@ -32,7 +32,7 @@ pipeline {
                     def remote = [:]
                     remote.name = "hosting-prod"
                     // remote.host = IP_HOSTING_PROD
-                    remote.host = hosting-prod.lan
+                    remote.host = "hosting-prod.lan"
                     remote.allowAnyHosts = true
 
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-hosting-prod', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
