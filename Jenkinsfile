@@ -5,7 +5,6 @@ pipeline {
         BUILD_VERSION = VersionNumber (versionNumberString: '${BUILD_YEAR}.${BUILD_MONTH}.${BUILDS_THIS_MONTH}')
         DOCKERH_REPO = "juronja"
         IMAGE_TAG = "$JOB_NAME"
-        CONTAINER_NAME = "$JOB_NAME"
     }
         
     stages {
@@ -23,16 +22,17 @@ pipeline {
             }
         }
         stage('Deploy on HOSTING-PROD') {
-            environment {
-                IP_HOSTING_PROD = credentials('ip-hosting-prod')
-            }
+            // environment {
+            //     IP_HOSTING_PROD = credentials('ip-hosting-prod')
+            // }
             steps {
                 script {
                     echo "Deploying Docker container on HOSTING-PROD ..."
 
                     def remote = [:]
                     remote.name = "hosting-prod"
-                    remote.host = IP_HOSTING_PROD
+                    // remote.host = IP_HOSTING_PROD
+                    remote.host = hosting-prod.lan
                     remote.allowAnyHosts = true
 
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-hosting-prod', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
