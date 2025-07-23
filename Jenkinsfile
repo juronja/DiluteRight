@@ -22,16 +22,12 @@ pipeline {
             }
         }
         stage('Deploy on HOSTING-PROD') {
-            // environment {
-            //     IP_HOSTING_PROD = credentials('ip-hosting-prod')
-            // }
             steps {
                 script {
                     echo "Deploying Docker container on HOSTING-PROD ..."
 
                     def remote = [:]
                     remote.name = "hosting-prod"
-                    // remote.host = IP_HOSTING_PROD
                     remote.host = "hosting-prod.lan"
                     remote.allowAnyHosts = true
 
