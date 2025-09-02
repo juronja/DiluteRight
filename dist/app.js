@@ -1,7 +1,7 @@
 function handleImgLoad() {
     const nrImages = 20
     const randomNumber = Math.floor(Math.random() * nrImages) + 1;
-    const newImgSrc = "assets/images/cat" + randomNumber + ".webp"
+    const newImgSrc = "assets/images/gif/cat" + randomNumber + ".webp"
 
     document.getElementById("random-cat").querySelector("img").src = newImgSrc
 }
